@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "185294490620",
+    "project_id": "happyforus-8dadc",
+    "storage_bucket": "happyforus-8dadc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185294490620:android:3ae738f5dcd8d199a68079",
+        "android_client_info": {
+          "package_name": "com.project.happyforus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP9keYqWmjZP1Fr2Ry16li27Hqt8RUP90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

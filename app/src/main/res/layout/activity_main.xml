@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="#121212"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Server Management Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Server Management"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:paddingBottom="16dp"/>
+
+        <!-- Database Logins Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Database Logins"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:paddingBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/db_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="DB server or IP"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:drawableEnd="@drawable/ic_edit"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/white"/>
+
+        <EditText
+            android:id="@+id/db_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="DB Username"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:drawableEnd="@drawable/ic_edit"
+            android:drawablePadding="12dp"
+            android:layout_marginTop="16dp"
+            android:drawableTint="@color/white"/>
+
+
+
+        <EditText
+            android:layout_marginTop="20dp"
+            android:id="@+id/db_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="DB Password"
+            android:inputType="textPassword"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:drawableEnd="@drawable/ic_edit"
+            android:drawablePadding="12dp"
+            android:drawableTint="@color/white"/>
+
+        <EditText
+            android:id="@+id/db_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="DB Name"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#AAAAAA"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:drawableEnd="@drawable/ic_edit"
+            android:drawablePadding="12dp"
+            android:layout_marginTop="16dp"
+            android:drawableTint="@color/white"/>
+
+        <!-- Save and Cancel Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="32dp">
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:backgroundTint="#333333"
+                android:textColor="#FFFFFF"/>
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Save Settings"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="#1E88E5"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- Monitor Apps Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monitor Apps"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:paddingTop="32dp"
+            android:paddingBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/add_app_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add"
+                app:tint="@color/white"
+                android:background="@drawable/edit_text_background"
+                android:contentDescription="Add App"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add App to Monitor"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:paddingStart="16dp"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_apps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:scrollbars="vertical"/>
+
+        <!-- Continue Button -->
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Continue"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#1E88E5"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
+
+</ScrollView>
