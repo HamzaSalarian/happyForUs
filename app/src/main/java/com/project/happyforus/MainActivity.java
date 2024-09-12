@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         String dbNameInput = dbName.getText().toString().trim();
 
         // Call the API to test the DB connection
-        ApiService apiService = RetrofitClient.getClient("http://192.168.100.21/").create(ApiService.class);
+        ApiService apiService = RetrofitClient.getClient("replace your ip/").create(ApiService.class);
         Call<ConnectionResponse> call = apiService.testDbConnection(dbServerInput, dbUsernameInput, dbPasswordInput, dbNameInput);
 
         call.enqueue(new retrofit2.Callback<ConnectionResponse>() {

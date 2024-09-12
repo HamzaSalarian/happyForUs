@@ -11,7 +11,7 @@ import retrofit2.Response;
 public class EmailSender {
 
     private static final String TAG = "EmailSender";
-    private static final String POSTMARK_SERVER_TOKEN = "19e90550-921a-429c-aff4-978f486d88de"; // Replace with your Postmark API key
+    private static final String POSTMARK_SERVER_TOKEN = "Api key goes here"; // Replace with your Postmark API key
 
     public void sendEmail() {
         // Initialize the API service
