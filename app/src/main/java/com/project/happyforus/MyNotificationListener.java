@@ -45,6 +45,33 @@ public class MyNotificationListener extends NotificationListenerService {
             String notificationTitle = notification.extras.getString(Notification.EXTRA_TITLE);
             String notificationText = notification.extras.getString(Notification.EXTRA_TEXT);
 
+
+            String dbServer = AppDataManager.getInstance().getDbServer();
+            String dbUsername = AppDataManager.getInstance().getDbUsername();
+            String dbPassword = AppDataManager.getInstance().getDbPassword();
+            String dbName = AppDataManager.getInstance().getDbName();
+            String dbTable = AppDataManager.getInstance().getDbTable();
+
+            Log.d(TAG, "onNotificationPosted: "+ dbTable);
+
+            // Use default local server details if no data is provided
+            if (dbServer == null || dbServer.isEmpty()) {
+                dbServer = "localhost";
+            }
+            if (dbUsername == null || dbUsername.isEmpty()) {
+                dbUsername = "root";
+            }
+            if (dbPassword == null || dbPassword.isEmpty()) {
+                dbPassword = "";
+            }
+            if (dbName == null || dbName.isEmpty()) {
+                dbName = "notifications_db";
+            }
+            if (dbTable == null || dbTable.isEmpty()) {
+                dbTable = "notifications";
+            }
+
+
             Log.d(TAG, "Notification received from: " + packageName);
             Log.d(TAG, "Title: " + notificationTitle);
             Log.d(TAG, "Text: " + notificationText);
@@ -52,9 +79,11 @@ public class MyNotificationListener extends NotificationListenerService {
             // Create a NotificationData object
             NotificationItem notificationData = new NotificationItem(packageName, notificationTitle, notificationText);
 
+            NotificationRequest notificationRequest = new NotificationRequest(dbServer, dbUsername, dbPassword, dbName, dbTable, notificationData);
+
             // Send the notification data to the server using Retrofit
-            ApiService apiService = RetrofitClient.getClient("http://192.168.100.21/").create(ApiService.class);
-            Call<Void> call = apiService.sendNotificationToServer(notificationData);
+            ApiService apiService = RetrofitClient.getClient("http://192.168.100.16/").create(ApiService.class);
+            Call<Void> call = apiService.sendNotificationToServer(notificationRequest);
 
             // Handle the response from the server
             call.enqueue(new Callback<Void>() {

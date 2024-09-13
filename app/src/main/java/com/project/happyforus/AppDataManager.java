@@ -12,6 +12,7 @@ public class AppDataManager {
     private String dbUsername;
     private String dbPassword;
     private String dbName;
+    private String dbTable;
     private List<ApplicationInfo> monitoredApps;
 
     private AppDataManager() {
@@ -58,6 +59,14 @@ public class AppDataManager {
 
     public void setDbName(String dbName) {
         this.dbName = dbName;
+    }
+
+    public String getDbTable() {
+        return dbTable;
+    }
+
+    public void setDbTable(String dbTable) {
+        this.dbTable = dbTable;
     }
 
     // Monitored apps methods

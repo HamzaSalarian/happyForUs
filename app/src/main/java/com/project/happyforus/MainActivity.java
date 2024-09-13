@@ -27,7 +27,7 @@ import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText dbServer, dbUsername, dbPassword, dbName;
+    private EditText dbServer, dbUsername, dbPassword, dbName, dbTable;
     private Button saveButton, cancelButton, continueButton;
     private ImageButton addAppButton;
     private RecyclerView recyclerViewApps;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         dbUsername = findViewById(R.id.db_username);
         dbPassword = findViewById(R.id.db_password);
         dbName = findViewById(R.id.db_name);
+        dbTable = findViewById(R.id.db_table);
         saveButton = findViewById(R.id.save_button);
         cancelButton = findViewById(R.id.cancel_button);
         continueButton = findViewById(R.id.continue_button);
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         dbPassword.setText(dataManager.getDbPassword());
         dbName.setText(dataManager.getDbName());
 
+
         // Load monitored apps
         List<ApplicationInfo> monitoredApps = dataManager.getMonitoredApps();
         if (monitoredApps != null && !monitoredApps.isEmpty()) {
@@ -167,10 +169,11 @@ public class MainActivity extends AppCompatActivity {
         String dbUsernameInput = dbUsername.getText().toString().trim();
         String dbPasswordInput = dbPassword.getText().toString().trim();
         String dbNameInput = dbName.getText().toString().trim();
+        String dbTableInput = dbTable.getText().toString().trim();
 
         // Call the API to test the DB connection
-        ApiService apiService = RetrofitClient.getClient("replace your ip/").create(ApiService.class);
-        Call<ConnectionResponse> call = apiService.testDbConnection(dbServerInput, dbUsernameInput, dbPasswordInput, dbNameInput);
+        ApiService apiService = RetrofitClient.getClient("http://192.168.100.16/").create(ApiService.class);
+        Call<ConnectionResponse> call = apiService.testDbConnection(dbServerInput, dbUsernameInput, dbPasswordInput, dbNameInput,dbTableInput);
 
         call.enqueue(new retrofit2.Callback<ConnectionResponse>() {
             @Override
@@ -182,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                     dataManager.setDbUsername(dbUsernameInput);
                     dataManager.setDbPassword(dbPasswordInput);
                     dataManager.setDbName(dbNameInput);
+                    dataManager.setDbTable(dbTableInput);
 
                     // Save monitored apps
                     dataManager.setMonitoredApps(appAdapter.getMonitoredApps());
