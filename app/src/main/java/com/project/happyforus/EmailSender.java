@@ -7,6 +7,9 @@ import com.google.gson.JsonObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class EmailSender {
 
@@ -17,6 +20,7 @@ public class EmailSender {
         // Initialize the API service
         PostmarkApiService apiService = RetrofitClient.getClient("https://api.postmarkapp.com/").create(PostmarkApiService.class);
 
+        String currentTime = getCurrentTime();
         // Create the email body
         JsonObject emailBody = new JsonObject();
         emailBody.addProperty("From", "i200405@nu.edu.pk");
@@ -41,5 +45,11 @@ public class EmailSender {
                 Log.e(TAG, "Error sending email", t);
             }
         });
+
+    }
+
+    private String getCurrentTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());
     }
 }

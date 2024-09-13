@@ -2,6 +2,7 @@ package com.project.happyforus;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -21,7 +22,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Load saved preferences from AppDataManager Singleton
         loadSavedPreferences();
+        loadMonitoredAppsFromSharedPreferences();
 
         // Initialize monitored apps list and adapter
         appAdapter = new AppListAdapter(AppDataManager.getInstance().getMonitoredApps(), getPackageManager());
@@ -135,11 +139,21 @@ public class MainActivity extends AppCompatActivity {
         // Load saved values from AppDataManager Singleton
         AppDataManager dataManager = AppDataManager.getInstance();
 
-        // Set database connection fields
-        dbServer.setText(dataManager.getDbServer());
-        dbUsername.setText(dataManager.getDbUsername());
-        dbPassword.setText(dataManager.getDbPassword());
-        dbName.setText(dataManager.getDbName());
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+
+        // Load database connection fields
+        String dbServerValue = sharedPreferences.getString("dbServer", "");
+        String dbUsernameValue = sharedPreferences.getString("dbUsername", "");
+        String dbPasswordValue = sharedPreferences.getString("dbPassword", "");
+        String dbNameValue = sharedPreferences.getString("dbName", "");
+        String dbTableValue = sharedPreferences.getString("dbTable", "");
+
+        // Set the values to the UI fields
+        dbServer.setText(dbServerValue);
+        dbUsername.setText(dbUsernameValue);
+        dbPassword.setText(dbPasswordValue);
+        dbName.setText(dbNameValue);
+        dbTable.setText(dbTableValue);
 
 
         // Load monitored apps
@@ -187,8 +201,12 @@ public class MainActivity extends AppCompatActivity {
                     dataManager.setDbName(dbNameInput);
                     dataManager.setDbTable(dbTableInput);
 
+                    saveDatabaseInfoToSharedPreferences(dbServerInput, dbUsernameInput, dbPasswordInput, dbNameInput, dbTableInput);
+
                     // Save monitored apps
                     dataManager.setMonitoredApps(appAdapter.getMonitoredApps());
+
+                    saveMonitoredAppsToSharedPreferences();
 
                     Toast.makeText(MainActivity.this, "Database connection successful. Settings and monitored apps saved.", Toast.LENGTH_SHORT).show();
                 } else {
@@ -232,4 +250,58 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    private void saveMonitoredAppsToSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        List<ApplicationInfo> monitoredApps = AppDataManager.getInstance().getMonitoredApps();
+        Set<String> appPackageNames = new HashSet<>();
+
+        for (ApplicationInfo appInfo : monitoredApps) {
+            appPackageNames.add(appInfo.packageName);
+        }
+
+        // Store the app package names
+        editor.putStringSet("MonitoredApps", appPackageNames);
+        editor.apply();  // Commit the changes
+    }
+
+
+    private void loadMonitoredAppsFromSharedPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        Set<String> appPackageNames = sharedPreferences.getStringSet("MonitoredApps", new HashSet<>());
+
+        PackageManager pm = getPackageManager();
+        List<ApplicationInfo> monitoredApps = new ArrayList<>();
+
+        for (String packageName : appPackageNames) {
+            try {
+                ApplicationInfo appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+                monitoredApps.add(appInfo);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Set the monitored apps to AppDataManager
+        AppDataManager.getInstance().setMonitoredApps(monitoredApps);
+    }
+
+
+    private void saveDatabaseInfoToSharedPreferences(String dbServer, String dbUsername, String dbPassword, String dbName, String dbTable) {
+        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("dbServer", dbServer);
+        editor.putString("dbUsername", dbUsername);
+        editor.putString("dbPassword", dbPassword);
+        editor.putString("dbName", dbName);
+        editor.putString("dbTable", dbTable);
+
+        editor.apply();  // Commit the changes
+    }
+
+
 }
