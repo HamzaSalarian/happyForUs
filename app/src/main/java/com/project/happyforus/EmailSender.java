@@ -26,7 +26,7 @@ public class EmailSender {
         emailBody.addProperty("From", "i200405@nu.edu.pk");
         emailBody.addProperty("To", "i200405@nu.edu.pk");
         emailBody.addProperty("Subject", "Service Stopped");
-        emailBody.addProperty("TextBody", "The notification listener service has stopped unexpectedly." );
+        emailBody.addProperty("TextBody", "The notification listener service has stopped unexpectedly at " + currentTime + "." );
 
         // Send the email with the API key as a header
         Call<JsonObject> call = apiService.sendEmail(emailBody, POSTMARK_SERVER_TOKEN);
